@@ -5,11 +5,6 @@ const DEFAULT_MESSAGE_LIMIT = 50;
 const MAX_MESSAGE_LIMIT = 200;
 const MAX_MESSAGE_LENGTH = 5000;
 
-/**
- * Normalize a row from tbl_users into a clean API user object.
- * @param {object} row
- * @returns {object}
- */
 function formatUser(row) {
   const firstName = row.fld_fname ? String(row.fld_fname).trim() : '';
   const lastName = row.fld_lname ? String(row.fld_lname).trim() : '';
@@ -22,11 +17,6 @@ function formatUser(row) {
   };
 }
 
-/**
- * Normalize a joined message row into a clean API/socket message payload.
- * @param {object} row
- * @returns {object}
- */
 function formatMessage(row) {
   const firstName = row.fld_fname ? String(row.fld_fname).trim() : '';
   const lastName = row.fld_lname ? String(row.fld_lname).trim() : '';
@@ -41,11 +31,6 @@ function formatMessage(row) {
   };
 }
 
-/**
- * Look up an existing user in tbl_users by fld_userid.
- * @param {string} userId
- * @returns {Promise<object|null>}
- */
 async function findUserById(userId) {
   const [rows] = await pool.query(
     'SELECT fld_recno, fld_fname, fld_lname, fld_userid FROM tbl_users WHERE fld_userid = ? LIMIT 1',
@@ -54,11 +39,6 @@ async function findUserById(userId) {
   return rows.length > 0 ? formatUser(rows[0]) : null;
 }
 
-/**
- * Parse and clamp the message history limit query parameter.
- * @param {unknown} rawLimit
- * @returns {number}
- */
 function parseLimit(rawLimit) {
   const parsed = Number.parseInt(String(rawLimit ?? ''), 10);
   if (!Number.isFinite(parsed) || parsed <= 0) {
@@ -67,11 +47,6 @@ function parseLimit(rawLimit) {
   return Math.min(parsed, MAX_MESSAGE_LIMIT);
 }
 
-/**
- * Create the REST router for users, simple login validation, and messages.
- * @param {import('socket.io').Server} io
- * @returns {import('express').Router}
- */
 function createMessagesRouter(io) {
   const router = express.Router();
 

@@ -13,9 +13,6 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-/**
- * Verify that the MySQL connection pool can acquire a connection.
- */
 async function testConnection() {
   let connection;
   try {

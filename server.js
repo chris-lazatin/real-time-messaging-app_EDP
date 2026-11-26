@@ -17,19 +17,10 @@ const io = new Server(server);
 const socketToUser = new Map();
 const onlineUserCounts = new Map();
 
-/**
- * Return the deduplicated list of currently connected users.
- * @returns {Array<object>}
- */
 function getOnlineUsers() {
   return Array.from(onlineUserCounts.values(), (entry) => entry.user);
 }
 
-/**
- * Attach a user to a socket id, tracking multi-tab presence cleanly.
- * @param {string} socketId
- * @param {object} user
- */
 function addSocketUser(socketId, user) {
   socketToUser.set(socketId, user);
   const existing = onlineUserCounts.get(user.fld_userid);
@@ -41,11 +32,6 @@ function addSocketUser(socketId, user) {
   }
 }
 
-/**
- * Detach a socket id and report if that user has no remaining open connections.
- * @param {string} socketId
- * @returns {{ user: object, becameOffline: boolean } | null}
- */
 function removeSocketUser(socketId) {
   const user = socketToUser.get(socketId);
   if (!user) {
@@ -67,10 +53,6 @@ function removeSocketUser(socketId) {
   return { user, becameOffline: false };
 }
 
-/**
- * Remove a socket's current user (if any) and emit user_disconnected when offline.
- * @param {string} socketId
- */
 function leaveCurrentUser(socketId) {
   const removed = removeSocketUser(socketId);
   if (removed && removed.becameOffline) {

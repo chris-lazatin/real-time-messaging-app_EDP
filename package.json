@@ -1,21 +1,13 @@
 {
   "name": "realtime-messenger",
   "version": "1.0.0",
-  "description": "Real-time messaging application built with Node.js, Express, Socket.IO, and MySQL",
+  "description": "Real-time chat app for EDP final activity",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js"
   },
-  "keywords": [
-    "nodejs",
-    "express",
-    "socket.io",
-    "mysql",
-    "chat",
-    "messenger"
-  ],
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
